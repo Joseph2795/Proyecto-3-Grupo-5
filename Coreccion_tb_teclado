@@ -1,0 +1,164 @@
+`timescale 1ns / 1ps
+
+module tbteclado();
+
+		// Inputs
+	reg clk;
+	reg reset;
+	reg ps2d;
+	reg ps2c;
+	reg rx_en;
+
+	// Outputs
+	//wire [7:0] regdata;
+	//wire [2:0] s;
+	//wire [7:0] dout;
+	//wire rx_done_tick;
+	wire [7:0] key_code;
+	wire got_code_tick;
+
+	// Instantiate the Unit Under Test (UUT)
+	kb_code tb (
+		.clk(clk),
+		.reset(reset),
+		.ps2d(ps2d),
+		.ps2c(ps2c),
+		//.led(regdata),
+		.key_code(key_code),
+		.got_code_tick(got_code_tick)
+		
+	);
+	always #10 clk=~clk;
+	always #4000 ps2c=~ps2c;
+
+	initial begin
+		// Initialize Inputs
+		clk = 0;
+		reset = 1;
+		ps2d = 1;
+		ps2c = 0;
+		rx_en = 1;
+
+		// Wait 100 ns for global reset to finish
+		#100 reset = 0;  #100 reset = 1;		  #100 reset = 0;
+  
+			#8000
+			ps2d = 1;
+			//Manda 1C
+			#80000 ps2d = 0; //inicio 
+			//byte de datos
+			#8000 ps2d = 0;
+			#8000 ps2d = 0;
+			#8000 ps2d = 1;
+			#8000 ps2d = 1;
+			#8000 ps2d = 1;
+			#8000 ps2d = 0;
+			#8000 ps2d = 0;
+			#8000 ps2d = 0;
+			//paridad
+			#8000 ps2d = 1;
+			//final
+			#8000 ps2d = 1;
+			
+			//Manda F0h
+            #8000 ps2d = 0; //inicio 
+            //byte de datos
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            //paridad
+            #8000 ps2d = 0;
+            //final
+            #8000 ps2d = 1;
+            
+            //Manda 1C
+            #8000 ps2d = 0; //inicio 
+            //byte de datos
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            //paridad
+            #8000 ps2d = 1;
+            //final
+            #8000 ps2d = 1;
+
+            //Manda 72
+            #8000 ps2d = 0; //inicio 
+            //byte de datos
+            #8000 ps2d = 0;
+            #8000 ps2d = 1;
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 0;
+            //paridad
+            #8000 ps2d = 0;
+            //final
+            #8000 ps2d = 1;
+
+            //Manda 72
+            #8000 ps2d = 0; //inicio 
+            //byte de datos
+            #8000 ps2d = 0;
+            #8000 ps2d = 1;
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 0;
+            //paridad
+            #8000 ps2d = 0;
+            //final
+            #8000 ps2d = 1;
+
+			//Manda F0h
+            #8000 ps2d = 0; //inicio 
+            //byte de datos
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            //paridad
+            #8000 ps2d = 0;
+            //final
+            #8000 ps2d = 1;
+            
+            //Manda 72
+            #8000 ps2d = 0; //inicio 
+            //byte de datos
+            #8000 ps2d = 0;
+            #8000 ps2d = 1;
+            #8000 ps2d = 0;
+            #8000 ps2d = 0;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 1;
+            #8000 ps2d = 0;
+            //paridad
+            #8000 ps2d = 0;
+            //final
+            #8000 ps2d = 1;
+			#180000
+
+		$stop;
+
+
+	end
+endmodule
