@@ -1,0 +1,28 @@
+`timescale 1ns / 1ps
+
+module musica_alarma_tb();
+
+    // Input
+	reg clk;
+	
+	// Output
+	wire speaker;
+	
+	// Instantiate the Unit Under Test (UUT)
+    musica_alarma tb(
+        .clk(clk),
+        .speaker(speaker)        
+    );
+	
+    initial 
+    begin
+		// Initialize Inputs
+		clk = 0;
+    end
+    
+    always
+    begin
+        #40 clk = ~clk;   
+    end
+		
+endmodule
