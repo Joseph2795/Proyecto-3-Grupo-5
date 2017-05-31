@@ -1,0 +1,26 @@
+`timescale 1ns / 1ps
+
+module musica_alarma(
+    input wire clk, //reloj es de 25 MHz
+    output reg speaker
+    );
+
+    parameter clkdivider = 25000000/440/2;
+
+    reg [23:0] tone; //cambia a una frecuencia de 1.5 Hz y produce una ond
+    reg [14:0] counter;
+
+    always @(posedge clk)
+        tone <= tone+1;
+
+    always @(posedge clk) 
+        if(counter==0) 
+            counter <= (tone[23] ? clkdivider-1 : clkdivider/2-1); 
+        else 
+            counter <= counter-1;
+
+    always @(posedge clk) 
+        if(counter==0) 
+            speaker <= ~speaker;
+            
+endmodule
